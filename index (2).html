@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aftab's Food Court</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --maroon-950:#1c0b0d;
+    --maroon-900:#2b1014;
+    --maroon-800:#3a161a;
+    --saffron:#e8a33d;
+    --saffron-dim:#c7862b;
+    --chili:#c1432d;
+    --cardamom:#4f7358;
+    --cream:#f4e9d8;
+    --cream-dim:#cdbfa9;
+    --line: rgba(244,233,216,0.14);
+    box-sizing:border-box;
+    padding-top: env(safe-area-inset-top,0px);
+    padding-bottom: env(safe-area-inset-bottom,0px);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth; scroll-padding-top: env(safe-area-inset-top,0px);}
+  body{
+    margin:0;
+    background:var(--maroon-950);
+    color:var(--cream);
+    font-family:'Work Sans', sans-serif;
+    line-height:1.5;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    margin:0;
+  }
+  a{color:inherit;}
+  img{max-width:100%;}
+  .wrap{
+    max-width:1100px;
+    margin:0 auto;
+    padding:0 28px;
+  }
+  ::selection{background:var(--chili); color:var(--cream);}
+
+  /* ---------- decorative scallop divider ---------- */
+  .scallop{
+    height:22px;
+    width:100%;
+    background-image: radial-gradient(circle at 11px -3px, transparent 12px, var(--maroon-950) 13px);
+    background-size: 22px 22px;
+    background-repeat: repeat-x;
+  }
+  .scallop.flip{
+    transform:rotate(180deg);
+  }
+  .scallop.on-cream{
+    background-image: radial-gradient(circle at 11px -3px, transparent 12px, var(--cream) 13px);
+  }
+  .scallop.on-maroon800{
+    background-image: radial-gradient(circle at 11px -3px, transparent 12px, var(--maroon-800) 13px);
+  }
+
+  /* ---------- header / nav ---------- */
+  header{
+    position:sticky;
+    top:env(safe-area-inset-top,0px);
+    z-index:50;
+    background:rgba(28,11,13,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:16px 28px;
+    max-width:1100px;
+    margin:0 auto;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:'Fraunces', serif;
+    font-size:1.25rem;
+    letter-spacing:0.01em;
+  }
+  .brand-mark{
+    width:30px; height:30px;
+    border-radius:50%;
+    background:conic-gradient(from 180deg, var(--saffron), var(--chili), var(--cardamom), var(--saffron));
+    box-shadow:0 0 0 2px var(--maroon-950), 0 0 0 3px var(--line);
+    flex-shrink:0;
+  }
+  nav.links{
+    display:flex;
+    gap:28px;
+    font-size:0.94rem;
+  }
+  nav.links a{
+    text-decoration:none;
+    color:var(--cream-dim);
+    position:relative;
+    padding-bottom:3px;
+  }
+  nav.links a:hover, nav.links a:focus-visible{color:var(--saffron);}
+  nav.links a::after{
+    content:'';
+    position:absolute; left:0; right:0; bottom:-2px;
+    height:2px; background:var(--saffron);
+    transform:scaleX(0); transform-origin:left;
+    transition:transform .25s ease;
+  }
+  nav.links a:hover::after, nav.links a:focus-visible::after{transform:scaleX(1);}
+  .nav-toggle{display:none;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    padding:96px 0 70px;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:'';
+    position:absolute; inset:0;
+    background:
+      radial-gradient(ellipse 480px 300px at 82% 18%, rgba(232,163,61,0.16), transparent 60%),
+      radial-gradient(ellipse 420px 280px at 12% 85%, rgba(193,67,45,0.14), transparent 60%);
+    pointer-events:none;
+  }
+  .hero-inner{
+    position:relative;
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:48px;
+    align-items:center;
+  }
+  .eyebrow-line{
+    display:flex; align-items:center; gap:10px;
+    color:var(--saffron);
+    font-size:0.85rem;
+    margin-bottom:18px;
+  }
+  .eyebrow-line svg{width:16px;height:16px;flex-shrink:0;}
+  .hero h1{
+    font-size:clamp(2.7rem, 6vw, 4.6rem);
+    line-height:0.98;
+    color:var(--cream);
+  }
+  .hero h1 em{
+    font-style:italic;
+    color:var(--saffron);
+  }
+  .hero p.lede{
+    margin-top:22px;
+    max-width:46ch;
+    font-size:1.08rem;
+    color:var(--cream-dim);
+  }
+  .hero-cta{
+    margin-top:34px;
+    display:flex;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:14px 26px;
+    border-radius:999px;
+    font-size:0.95rem;
+    font-weight:600;
+    text-decoration:none;
+    border:1px solid transparent;
+    cursor:pointer;
+    transition:transform .18s ease, background .18s ease, border-color .18s ease;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn-solid{
+    background:var(--chili);
+    color:var(--cream);
+  }
+  .btn-solid:hover{background:#a83a26;}
+  .btn-ghost{
+    border-color:var(--line);
+    color:var(--cream);
+    background:transparent;
+  }
+  .btn-ghost:hover{border-color:var(--saffron); color:var(--saffron);}
+
+  /* hero plate graphic */
+  .plate-wrap{
+    position:relative;
+    aspect-ratio:1/1;
+    max-width:380px;
+    margin:0 auto;
+  }
+  .plate-ring{
+    position:absolute; inset:0;
+    border-radius:50%;
+    background:
+      repeating-conic-gradient(from 0deg, var(--saffron) 0deg 8deg, transparent 8deg 20deg);
+    animation:spin 40s linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .plate-ring{animation:none;}
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .plate-inner{
+    position:absolute; inset:14%;
+    border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, var(--maroon-800), var(--maroon-950) 75%);
+    border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.5);
+  }
+  .plate-inner .glyph{
+    font-family:'Fraunces', serif;
+    font-size:5.2rem;
+    color:var(--saffron);
+    line-height:1;
+  }
+  .plate-inner .glyph-sub{
+    position:absolute;
+    bottom:20%;
+    font-size:0.78rem;
+    letter-spacing:0.14em;
+    color:var(--cream-dim);
+  }
+
+  /* ---------- marquee strip ---------- */
+  .marquee{
+    background:var(--saffron);
+    color:var(--maroon-950);
+    overflow:hidden;
+    white-space:nowrap;
+    padding:12px 0;
+    border-top:1px solid var(--maroon-950);
+    border-bottom:1px solid var(--maroon-950);
+  }
+  .marquee-track{
+    display:inline-block;
+    animation:scroll-left 26s linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce){ .marquee-track{animation-duration:70s;} }
+  .marquee span{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:1.05rem;
+    margin:0 24px;
+  }
+  .marquee span.dot{color:var(--chili); font-weight:400;}
+  @keyframes scroll-left{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+  }
+
+  /* ---------- section shell ---------- */
+  section{padding:84px 0;}
+  .section-head{
+    max-width:60ch;
+    margin-bottom:52px;
+  }
+  .section-head .kicker{
+    color:var(--saffron);
+    font-size:0.85rem;
+    margin-bottom:10px;
+    display:block;
+  }
+  .section-head h2{
+    font-size:clamp(1.9rem, 3.4vw, 2.6rem);
+    color:var(--cream);
+  }
+  .section-head p{
+    margin-top:14px;
+    color:var(--cream-dim);
+    font-size:1.02rem;
+  }
+  .on-cream{ background:var(--cream); color:var(--maroon-950); }
+  .on-cream .section-head p{ color:#5d4e3d; }
+  .on-cream .kicker{ color:var(--chili); }
+
+  /* ---------- story / about ---------- */
+  .story-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:56px;
+    align-items:start;
+  }
+  .story-grid p{
+    color:#4a3c2d;
+    font-size:1.04rem;
+    margin:0 0 16px;
+  }
+  .story-grid p:last-child{margin-bottom:0;}
+  .founder-card{
+    background:var(--maroon-900);
+    color:var(--cream);
+    border-radius:18px;
+    padding:32px;
+    border:1px solid var(--line);
+  }
+  .founder-card .tag{
+    color:var(--saffron);
+    font-size:0.82rem;
+    letter-spacing:0.05em;
+    margin-bottom:8px;
+    display:block;
+  }
+  .founder-card h3{font-size:1.5rem; margin-bottom:10px;}
+  .founder-card p{color:var(--cream-dim); font-size:0.98rem;}
+  .stat-row{
+    display:flex;
+    gap:28px;
+    margin-top:24px;
+    padding-top:24px;
+    border-top:1px solid var(--line);
+    flex-wrap:wrap;
+  }
+  .stat-row div b{
+    display:block;
+    font-family:'Fraunces', serif;
+    font-size:1.7rem;
+    color:var(--saffron);
+  }
+  .stat-row div span{
+    font-size:0.8rem;
+    color:var(--cream-dim);
+  }
+
+  /* ---------- stalls / menu ---------- */
+  .stall-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:2px;
+    background:var(--line);
+    border:1px solid var(--line);
+    border-radius:20px;
+    overflow:hidden;
+  }
+  .stall{
+    background:var(--maroon-900);
+    padding:34px 28px;
+    position:relative;
+    transition:background .25s ease;
+  }
+  .stall:hover{background:var(--maroon-800);}
+  .stall .num{
+    font-family:'Fraunces', serif;
+    font-size:0.85rem;
+    color:var(--saffron-dim);
+    display:block;
+    margin-bottom:14px;
+  }
+  .stall h3{
+    font-size:1.32rem;
+    margin-bottom:10px;
+    color:var(--cream);
+  }
+  .stall p{
+    color:var(--cream-dim);
+    font-size:0.95rem;
+    margin:0 0 18px;
+  }
+  .stall .price-line{
+    display:flex;
+    justify-content:space-between;
+    font-size:0.88rem;
+    padding:7px 0;
+    border-top:1px dashed var(--line);
+    color:var(--cream-dim);
+  }
+  .stall .price-line span:last-child{color:var(--saffron);}
+
+  /* ---------- gallery band ---------- */
+  .band{
+    background:var(--maroon-800);
+    padding:60px 0;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .band-grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:18px;
+    text-align:center;
+  }
+  .band-item svg{width:38px; height:38px; color:var(--saffron); margin-bottom:14px;}
+  .band-item h4{
+    font-family:'Fraunces', serif;
+    font-size:1.05rem;
+    color:var(--cream);
+    margin-bottom:6px;
+  }
+  .band-item p{
+    font-size:0.88rem;
+    color:var(--cream-dim);
+    margin:0;
+  }
+
+  /* ---------- hours / visit ---------- */
+  .visit-grid{
+    display:grid;
+    grid-template-columns:0.9fr 1.1fr;
+    gap:56px;
+  }
+  .hours-list{
+    list-style:none; padding:0; margin:0;
+  }
+  .hours-list li{
+    display:flex;
+    justify-content:space-between;
+    padding:13px 0;
+    border-bottom:1px solid var(--line);
+    font-size:0.98rem;
+  }
+  .hours-list li b{color:var(--saffron); font-weight:600;}
+  .visit-note{
+    margin-top:26px;
+    font-size:0.92rem;
+    color:var(--cream-dim);
+  }
+  .map-card{
+    border-radius:18px;
+    border:1px solid var(--line);
+    background:
+      linear-gradient(135deg, rgba(232,163,61,0.10), rgba(193,67,45,0.10)),
+      var(--maroon-900);
+    min-height:280px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:30px;
+    gap:14px;
+  }
+  .map-card svg{width:44px;height:44px;color:var(--chili);}
+  .map-card h3{font-size:1.2rem;color:var(--cream);}
+  .map-card p{color:var(--cream-dim); font-size:0.92rem; max-width:32ch;}
+
+  /* ---------- footer ---------- */
+  footer{
+    background:var(--maroon-950);
+    padding:52px 0 32px;
+    border-top:1px solid var(--line);
+  }
+  .footer-grid{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    flex-wrap:wrap;
+    gap:32px;
+    padding-bottom:32px;
+    border-bottom:1px solid var(--line);
+  }
+  .footer-brand .brand{margin-bottom:10px;}
+  .footer-brand p{color:var(--cream-dim); font-size:0.9rem; max-width:32ch; margin:0;}
+  .footer-cols{
+    display:flex;
+    gap:56px;
+  }
+  .footer-col h5{
+    font-size:0.82rem;
+    color:var(--saffron);
+    margin-bottom:12px;
+    font-weight:600;
+  }
+  .footer-col a{
+    display:block;
+    color:var(--cream-dim);
+    text-decoration:none;
+    font-size:0.92rem;
+    margin-bottom:9px;
+  }
+  .footer-col a:hover{color:var(--cream);}
+  .footer-bottom{
+    display:flex;
+    justify-content:space-between;
+    padding-top:22px;
+    font-size:0.82rem;
+    color:var(--cream-dim);
+    flex-wrap:wrap;
+    gap:10px;
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width:860px){
+    nav.links{display:none;}
+    .hero-inner{grid-template-columns:1fr; text-align:left;}
+    .plate-wrap{margin:0; max-width:280px;}
+    .story-grid{grid-template-columns:1fr;}
+    .stall-grid{grid-template-columns:1fr 1fr;}
+    .band-grid{grid-template-columns:1fr 1fr;}
+    .visit-grid{grid-template-columns:1fr;}
+    .footer-grid{flex-direction:column;}
+  }
+  @media (max-width:520px){
+    .stall-grid{grid-template-columns:1fr;}
+    .band-grid{grid-template-columns:1fr;}
+    .wrap{padding:0 20px;}
+  }
+
+  :focus-visible{outline:2px solid var(--saffron); outline-offset:3px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="brand"><span class="brand-mark" aria-hidden="true"></span>Aftab's Food Court</div>
+    <nav class="links">
+      <a href="#story">Our Story</a>
+      <a href="#stalls">Stalls</a>
+      <a href="#experience">Experience</a>
+      <a href="#visit">Visit</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-inner">
+    <div>
+      <span class="eyebrow-line">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12h16M4 6h16M4 18h10"/></svg>
+        Seven stalls, one long table
+      </span>
+      <h1>Good food finds<br>its way to <em>Aftab's</em></h1>
+      <p class="lede">A food court built the way a good meal is built — a little bit of everything, shared. Sizzling grills, slow-simmered curries, fresh rolled dough, and a corner just for dessert.</p>
+      <div class="hero-cta">
+        <a class="btn btn-solid" href="#stalls">See today's stalls</a>
+        <a class="btn btn-ghost" href="#visit">Plan a visit</a>
+      </div>
+    </div>
+    <div class="plate-wrap">
+      <div class="plate-ring" aria-hidden="true"></div>
+      <div class="plate-inner">
+        <span class="glyph">A</span>
+        <span class="glyph-sub">FOOD&nbsp;COURT</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Grills</span><span class="dot">•</span>
+    <span>Curries</span><span class="dot">•</span>
+    <span>Tandoor</span><span class="dot">•</span>
+    <span>Noodles</span><span class="dot">•</span>
+    <span>Rolls</span><span class="dot">•</span>
+    <span>Chaat</span><span class="dot">•</span>
+    <span>Desserts</span><span class="dot">•</span>
+    <span>Cold brews</span><span class="dot">•</span>
+    <span>Grills</span><span class="dot">•</span>
+    <span>Curries</span><span class="dot">•</span>
+    <span>Tandoor</span><span class="dot">•</span>
+    <span>Noodles</span><span class="dot">•</span>
+    <span>Rolls</span><span class="dot">•</span>
+    <span>Chaat</span><span class="dot">•</span>
+    <span>Desserts</span><span class="dot">•</span>
+    <span>Cold brews</span><span class="dot">•</span>
+  </div>
+</div>
+
+<section id="story" class="on-cream">
+  <div class="wrap">
+    <div class="story-grid">
+      <div>
+        <span class="section-head kicker" style="display:block;margin-bottom:10px;">Our story</span>
+        <h2 style="font-size:clamp(1.9rem,3.4vw,2.6rem);margin-bottom:20px;">Named after the person who wouldn't settle for one cuisine</h2>
+        <p>Aftab's Food Court started with a simple complaint: why should a group of hungry people have to agree on one restaurant? So instead, we built seven kitchens under one roof — each run by someone who's spent years perfecting a single thing.</p>
+        <p>No fusion, no shortcuts. Just the food each stall does best, cooked fresh, served fast, and eaten at long communal tables where everyone's tray looks a little different.</p>
+      </div>
+      <div class="founder-card">
+        <span class="tag">The idea</span>
+        <h3>One roof, seven kitchens</h3>
+        <p>Every stall at Aftab's is independently run, so the biryani cook never has to also be good at ice cream — and neither has to compromise.</p>
+        <div class="stat-row">
+          <div><b>7</b><span>stalls</span></div>
+          <div><b>40+</b><span>dishes</span></div>
+          <div><b>1</b><span>long table</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="stalls">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">Today's line-up</span>
+      <h2>Pick your stall</h2>
+      <p>Every stall keeps its own menu short — a handful of dishes, made well, rather than a hundred made fast.</p>
+    </div>
+    <div class="stall-grid">
+      <div class="stall">
+        <span class="num">01 — Grill &amp; Tandoor</span>
+        <h3>Charcoal &amp; Smoke</h3>
+        <p>Skewers and flatbreads straight off live coals, marinated overnight.</p>
+        <div class="price-line"><span>Seekh kebab plate</span><span>₹220</span></div>
+        <div class="price-line"><span>Tandoori half chicken</span><span>₹280</span></div>
+      </div>
+      <div class="stall">
+        <span class="num">02 — Curry Kitchen</span>
+        <h3>Slow Pot</h3>
+        <p>Curries simmered for hours, ladled over rice or scooped with bread.</p>
+        <div class="price-line"><span>Butter dal, rice</span><span>₹150</span></div>
+        <div class="price-line"><span>Chicken curry, naan</span><span>₹210</span></div>
+      </div>
+      <div class="stall">
+        <span class="num">03 — Wok Corner</span>
+        <h3>Fire Wok</h3>
+        <p>High-heat noodles and fried rice, tossed to order, never steamed ahead.</p>
+        <div class="price-line"><span>Hakka noodles</span><span>₹160</span></div>
+        <div class="price-line"><span>Chilli paneer</span><span>₹190</span></div>
+      </div>
+      <div class="stall">
+        <span class="num">04 — Roll House</span>
+        <h3>Wrapped Up</h3>
+        <p>Griddle-fresh parathas rolled around whatever's grilling next door.</p>
+        <div class="price-line"><span>Kathi roll</span><span>₹120</span></div>
+        <div class="price-line"><span>Paneer tikka roll</span><span>₹130</span></div>
+      </div>
+      <div class="stall">
+        <span class="num">05 — Chaat Stop</span>
+        <h3>Tangy &amp; Loud</h3>
+        <p>Street-side chaat built at the counter, in front of you, in under a minute.</p>
+        <div class="price-line"><span>Pani puri, 6 pc</span><span>₹60</span></div>
+        <div class="price-line"><span>Aloo tikki chaat</span><span>₹90</span></div>
+      </div>
+      <div class="stall">
+        <span class="num">06 — Dessert Bar</span>
+        <h3>Sweet Finish</h3>
+        <p>Warm gulab jamun, kulfi, and a rotating seasonal special.</p>
+        <div class="price-line"><span>Gulab jamun, 2 pc</span><span>₹70</span></div>
+        <div class="price-line"><span>Kulfi stick</span><span>₹80</span></div>
+      </div>
+      <div class="stall">
+        <span class="num">07 — Cold Press</span>
+        <h3>Something to Sip</h3>
+        <p>Fresh juices, lassi, and cold brew for washing it all down.</p>
+        <div class="price-line"><span>Mango lassi</span><span>₹90</span></div>
+        <div class="price-line"><span>Fresh lime soda</span><span>₹60</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="band" id="experience">
+  <div class="wrap">
+    <div class="section-head" style="margin-bottom:40px;">
+      <span class="kicker">What to expect</span>
+      <h2 style="font-size:clamp(1.6rem,3vw,2.1rem);">How Aftab's works</h2>
+    </div>
+    <div class="band-grid">
+      <div class="band-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16v4H4z"/><path d="M6 8v12M18 8v12M6 20h12"/></svg>
+        <h4>One token, any stall</h4>
+        <p>Load a single card at entry and spend it at every counter.</p>
+      </div>
+      <div class="band-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        <h4>Under 10 minutes</h4>
+        <p>Most stalls cook to order and fire the moment you pay.</p>
+      </div>
+      <div class="band-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 10h18M6 10V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4M4 10v10h16V10"/></svg>
+        <h4>Long shared tables</h4>
+        <p>Seating is communal, so your table can hold seven different meals.</p>
+      </div>
+      <div class="band-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3v18M5 8l7-5 7 5M5 8v8l7 5 7-5V8"/></svg>
+        <h4>New special weekly</h4>
+        <p>Each stall rotates one seasonal dish in, on Fridays.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="visit">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">Plan your visit</span>
+      <h2>When to find us</h2>
+      <p>Come hungry, come with a crowd — more people means more of the menu makes it to your table.</p>
+    </div>
+    <div class="visit-grid">
+      <div>
+        <ul class="hours-list">
+          <li><span>Monday – Thursday</span><b>12 pm – 10 pm</b></li>
+          <li><span>Friday – Saturday</span><b>12 pm – 11:30 pm</b></li>
+          <li><span>Sunday</span><b>11 am – 10 pm</b></li>
+          <li><span>Dessert Bar &amp; Cold Press</span><b>Open till close</b></li>
+        </ul>
+        <p class="visit-note">Peak hours run 1–3 pm and 8–9:30 pm — arrive a little earlier if you want first pick of the seasonal specials.</p>
+      </div>
+      <div class="map-card">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s7-7.2 7-12a7 7 0 1 0-14 0c0 4.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        <h3>Find the long table</h3>
+        <p>Look for the seven-stall archway and the smell of the grill — that's us.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brand"><span class="brand-mark" aria-hidden="true"></span>Aftab's Food Court</div>
+        <p>One roof, seven kitchens, one very long table.</p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h5>Explore</h5>
+          <a href="#story">Our story</a>
+          <a href="#stalls">Stalls</a>
+          <a href="#experience">Experience</a>
+        </div>
+        <div class="footer-col">
+          <h5>Visit</h5>
+          <a href="#visit">Hours</a>
+          <a href="#visit">Find us</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Aftab's Food Court</span>
+      <span>Made with a lot of chili and a little patience</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
